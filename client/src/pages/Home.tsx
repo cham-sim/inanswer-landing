@@ -253,7 +253,7 @@ function FourLoopSection() {
               </p>
               <div style={{ background: "var(--snow)", borderRadius: "var(--r-card)", border: "1px solid var(--silver-mist)", overflow: "hidden" }}>
                 <div style={{ height: 40, background: "var(--fog)", borderBottom: "1px solid var(--silver-mist)", display: "flex", alignItems: "center", padding: "0 16px", gap: 8 }}>
-                  {[0,1,2].map(j => <span key={j} style={{ width: 10, height: 10, borderRadius: 999, background: "#E0E0E5" }} />)}
+                  {[0, 1, 2].map(j => <span key={j} style={{ width: 10, height: 10, borderRadius: 999, background: "#E0E0E5" }} />)}
                   <span style={{ margin: "0 auto", fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--graphite)" }}>{s.url}</span>
                 </div>
                 <div style={{ minHeight: 480 }}>
@@ -418,7 +418,7 @@ function ReportsSection() {
 /* ─── FAQ Section ──────────────────────────────────────── */
 function FaqSection() {
   const faqs = [
-    { q: "어떤 LLM을 분석하나요?", a: "ChatGPT(GPT-4·o3·o4 계열), Gemini(2.5 Pro·Flash), Claude(Sonnet·Opus), Perplexity(Sonar) 4개 모델을 매일 추적합니다. 신규 모델 출시 시 30일 내 분석 파이프라인에 편입됩니다." },
+    { q: "어떤 LLM을 분석하나요?", a: "ChatGPT(GPT-5 계열), Gemini(3 Flash), Claude(Sonnet), Perplexity(Sonar) 4개 모델을 매일 추적합니다. 신규 모델 출시 시 30일 내 분석 파이프라인에 편입됩니다." },
     { q: "GEO를 어떻게 높여주나요?", a: "진단을 통해 클라이언트가 어느 분야·어느 LLM에서 누락되는지 식별하고, 이후 분기마다 SoMV(Share of Model Voice) 개선 목표를 클라이언트와 함께 설정합니다. GEO를 위해 홈페이지와 콘텐츠를 기술적으로 분석하고, 즉각적인 개선책과 장기적인 개선책을 함께 도입하며 AI가 적극적으로 로펌을 추천할 수 있게 만들어냅니다." },
     { q: "기존 SEO 컨설팅과 무엇이 다릅니까?", a: "SEO는 검색 엔진의 SERP 순위를 다루지만, GEO는 LLM의 답변 인용을 다룹니다. 측정 단위·콘텐츠 단위·추적 주기가 모두 다릅니다. INANSWER는 SEO에서 출발하지 않고, 처음부터 4대 LLM 답변 데이터로 설계된 인프라입니다." },
   ];
