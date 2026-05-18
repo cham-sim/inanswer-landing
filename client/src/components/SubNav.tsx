@@ -56,7 +56,7 @@ export default function SubNav() {
               </a>
             ))}
           </nav>
-          <a href="#cta" className="btn btn-azure btn-sm" onClick={handleNavClick}>
+          <a id="btn-header-cta" href="#cta" className="btn btn-azure btn-sm" onClick={handleNavClick}>
             상담 신청
           </a>
           <button

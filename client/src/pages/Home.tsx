@@ -42,7 +42,7 @@ function HeroSection() {
             InAnswer는 당신의 로펌을 AI가 신뢰하고,<br />잠재 고객들에게 추천할 수 있도록 돕습니다.
           </p>
           <div style={{ display: "flex", gap: 8, alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="#cta" className="btn btn-azure">
+            <a id="btn-main-cta" href="#cta" className="btn btn-azure">
               무료 상담 신청하기<span className="arrow" aria-hidden>→</span>
             </a>
           </div>
@@ -508,7 +508,7 @@ function ContactForm() {
           </div>
         ))}
       </div>
-      <button onClick={handleSubmit} disabled={loading} className="btn btn-azure" style={{ width: "100%", padding: "16px 24px", fontSize: 16, marginTop: 8, opacity: loading ? 0.6 : 1 }}>
+      <button id="btn-form-submit" onClick={handleSubmit} disabled={loading} className="btn btn-azure" style={{ width: "100%", padding: "16px 24px", fontSize: 16, marginTop: 8, opacity: loading ? 0.6 : 1 }}>
         {loading ? "전송 중…" : <>신청하기<span className="arrow" aria-hidden>→</span></>}
       </button>
       <div style={{ marginTop: 18, fontSize: 12, color: "var(--stage-text-secondary)", textAlign: "center", letterSpacing: "0.01em" }}>
