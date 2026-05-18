@@ -442,9 +442,24 @@ function ContactForm() {
   const [focused, setFocused] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
     if (!form.company || !form.name || !form.phone || !form.email) return;
-    setSubmitted(true);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("server error");
+      setSubmitted(true);
+    } catch {
+      alert("전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -488,8 +503,8 @@ function ContactForm() {
           </div>
         ))}
       </div>
-      <button onClick={handleSubmit} className="btn btn-azure" style={{ width: "100%", padding: "16px 24px", fontSize: 16, marginTop: 8 }}>
-        신청하기<span className="arrow" aria-hidden>→</span>
+      <button onClick={handleSubmit} disabled={loading} className="btn btn-azure" style={{ width: "100%", padding: "16px 24px", fontSize: 16, marginTop: 8, opacity: loading ? 0.6 : 1 }}>
+        {loading ? "전송 중…" : <>신청하기<span className="arrow" aria-hidden>→</span></>}
       </button>
       <div style={{ marginTop: 18, fontSize: 12, color: "var(--stage-text-secondary)", textAlign: "center", letterSpacing: "0.01em" }}>
         비밀유지 보장 · 본 컨설팅까지 비용 없음 · 평일 48시간 내 회신
