@@ -1,5 +1,49 @@
 import { useState } from "react";
 
+function PrivacyModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  if (!open) return null;
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(0,0,0,0.45)", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: "#fff", borderRadius: 16, padding: "32px 28px", maxWidth: 480, width: "100%", maxHeight: "80vh", overflowY: "auto", boxShadow: "0 8px 48px rgba(0,0,0,0.18)" }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+          <div style={{ fontSize: 17, fontWeight: 700, color: "#111" }}>개인정보 수집 및 이용</div>
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, color: "#999", fontSize: 20, lineHeight: 1 }}>✕</button>
+        </div>
+        <p style={{ fontSize: 13, color: "#555", lineHeight: 1.7, marginBottom: 20 }}>
+          엔유액셀러레이터는 리포트 발송 및 InAnswer(인앤써) 서비스 안내를 위해 아래와 같이 개인정보를 수집하고 이용하고자 합니다.
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+          {[
+            ["수집 목적", "리포트 발송 및 인앤써 서비스 안내"],
+            ["수집 항목", "이메일 주소(필수), 이름(필수), 소속(필수)"],
+            ["보유 및 이용 기간", "리포트 신청 후 1년, 이용동의 철회 시 즉시 삭제"],
+          ].map(([label, value]) => (
+            <div key={label} style={{ background: "#F5F7FA", borderRadius: 8, padding: "10px 14px" }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#888", marginBottom: 3 }}>{label}</div>
+              <div style={{ fontSize: 13, color: "#333" }}>{value}</div>
+            </div>
+          ))}
+        </div>
+        <p style={{ fontSize: 12, color: "#888", lineHeight: 1.7, marginBottom: 20 }}>
+          본 개인정보 수집에 동의하지 않을 수 있으며, 동의하지 않는 경우 리포트 수신 및 서비스 안내가 제한됩니다.
+        </p>
+        <button
+          onClick={onClose}
+          style={{ width: "100%", padding: "12px", borderRadius: 10, background: "#1B3A2D", color: "#fff", fontSize: 14, fontWeight: 600, border: "none", cursor: "pointer" }}
+        >
+          확인
+        </button>
+      </div>
+    </div>
+  );
+}
+
 const FINDINGS = [
   {
     num: "01",
@@ -43,6 +87,10 @@ function DownloadForm() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [agreed, setAgreed] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+
+  const isReady = !!form.name.trim() && !!form.company.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) && agreed;
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -50,6 +98,7 @@ function DownloadForm() {
     if (!form.company.trim()) e.company = "소속을 입력해 주세요.";
     if (!form.email.trim()) e.email = "이메일을 입력해 주세요.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "올바른 이메일 형식을 입력해 주세요.";
+    if (!agreed) e.agreed = "개인정보 수집 및 이용에 동의해 주세요.";
     return e;
   };
 
@@ -135,6 +184,30 @@ function DownloadForm() {
           </div>
         ))}
       </div>
+      <div style={{ marginTop: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div
+            onClick={() => { setAgreed(a => !a); if (errors.agreed) setErrors({ ...errors, agreed: "" }); }}
+            style={{ width: 18, height: 18, borderRadius: 4, border: `1.5px solid ${errors.agreed ? "#FF6B6B" : agreed ? "#1B3A2D" : "rgba(168,176,192,0.6)"}`, background: agreed ? "#1B3A2D" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 160ms", cursor: "pointer" }}
+          >
+            {agreed && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+          </div>
+          <span
+            onClick={() => { setAgreed(a => !a); if (errors.agreed) setErrors({ ...errors, agreed: "" }); }}
+            style={{ fontSize: 12, color: "var(--ink)", fontWeight: 500, cursor: "pointer" }}
+          >
+            (필수)개인정보수집 및 이용에 동의합니다.
+          </span>
+          <button
+            type="button"
+            onClick={() => setPrivacyOpen(true)}
+            style={{ background: "none", border: "none", cursor: "pointer", fontSize: 11, color: "rgba(100,110,130,0.6)", textDecoration: "underline", padding: 0, flexShrink: 0 }}
+          >
+            자세히 보기
+          </button>
+        </div>
+        {errors.agreed && <div style={{ fontSize: 11, color: "#FF6B6B", marginTop: 4 }}>{errors.agreed}</div>}
+      </div>
       {serverError && (
         <div style={{ fontSize: 12, color: "#FF6B6B", marginTop: 12, padding: "10px 14px", background: "rgba(255,107,107,0.08)", borderRadius: 8, border: "1px solid rgba(255,107,107,0.2)" }}>
           {serverError}
@@ -142,12 +215,14 @@ function DownloadForm() {
       )}
       <button
         onClick={handleSubmit}
-        disabled={loading}
+        disabled={!isReady || loading}
         style={{
           width: "100%", marginTop: 18, padding: "14px 24px", borderRadius: 999,
-          background: "#1B3A2D", color: "#fff", fontSize: 15, fontWeight: 600,
-          border: "none", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1,
+          background: !isReady || loading ? "rgba(27,58,45,0.35)" : "#1B3A2D",
+          color: "#fff", fontSize: 15, fontWeight: 600,
+          border: "none", cursor: !isReady || loading ? "not-allowed" : "pointer",
           display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+          transition: "background 200ms",
         }}
       >
         {loading ? "처리 중..." : (
@@ -159,9 +234,7 @@ function DownloadForm() {
           </>
         )}
       </button>
-      <div style={{ marginTop: 10, fontSize: 11, color: "var(--graphite)", textAlign: "center", lineHeight: 1.6 }}>
-        수집 정보는 리포트 발송 및 InAnswer 서비스 안내 목적으로만 사용됩니다.
-      </div>
+      <PrivacyModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} />
     </>
   );
 }
