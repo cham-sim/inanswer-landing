@@ -23,8 +23,13 @@ function HeroSection() {
         loop
         playsInline
         preload="auto"
+        poster="/hero-poster.jpg"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none", filter: "brightness(0.65) saturate(0.9)" }}
-      />
+      >
+        <source src="/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
+        <source src="/hero-tablet.mp4" type="video/mp4" media="(max-width: 1279px)" />
+        <source src="/hero-desktop.mp4" type="video/mp4" />
+      </video>
       {/* Gradient overlays */}
       <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse 80% 60% at center, rgba(10,14,26,0.6) 0%, rgba(10,14,26,0.35) 50%, rgba(10,14,26,0) 100%)" }} />
       <div aria-hidden style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "40%", pointerEvents: "none", background: "linear-gradient(180deg, rgba(10,14,26,0) 0%, rgba(10,14,26,0.7) 100%)" }} />
