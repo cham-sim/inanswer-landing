@@ -56,7 +56,7 @@ export default function SubNav() {
               </a>
             ))}
           </nav>
-          <a id="btn-header-cta" href="#cta" className="btn btn-azure btn-sm" onClick={handleNavClick}>
+          <a id="btn-header-cta" href="/consult" className="btn btn-azure btn-sm" onClick={handleNavClick}>
             상담 신청
           </a>
           <button
@@ -79,7 +79,7 @@ export default function SubNav() {
           </a>
         ))}
         <a
-          href="#cta"
+          href="/consult"
           onClick={handleNavClick}
           style={{ color: "var(--azure)", fontWeight: 600 }}
         >

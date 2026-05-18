@@ -588,3 +588,15 @@ footer.foot a { color: var(--ash); }
     color: var(--ink);
   }
 }
+
+/* =========================================================
+   Report & Consult Page — responsive grids
+   ========================================================= */
+@media (max-width: 860px) {
+  .report-findings-grid,
+  .report-download-grid,
+  .consult-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+}

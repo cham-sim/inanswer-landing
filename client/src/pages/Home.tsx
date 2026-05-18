@@ -13,7 +13,7 @@ function HeroSection() {
       id="hero"
       className="s s-lg"
       data-screen-label="01 Hero"
-      style={{ position: "relative", overflow: "hidden", background: "#0A0E1A", minHeight: "100vh", display: "flex", alignItems: "center" }}
+      style={{ position: "relative", overflow: "hidden", background: "#0A0E1A", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}
     >
       <video
         id="hero-video"
@@ -24,7 +24,7 @@ function HeroSection() {
         playsInline
         preload="auto"
         poster="/hero-poster.jpg"
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none", filter: "brightness(0.65) saturate(0.9)" }}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none", filter: "brightness(0.6) saturate(0.9)" }}
       >
         <source src="/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
         <source src="/hero-tablet.mp4" type="video/mp4" media="(max-width: 1279px)" />
@@ -42,7 +42,7 @@ function HeroSection() {
             InAnswer는 당신의 로펌을 AI가 신뢰하고,<br />잠재 고객들에게 추천할 수 있도록 돕습니다.
           </p>
           <div style={{ display: "flex", gap: 8, alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
-            <a id="btn-main-cta" href="#cta" className="btn btn-azure">
+            <a id="btn-main-cta" href="/consult" className="btn btn-azure">
               무료 상담 신청하기<span className="arrow" aria-hidden>→</span>
             </a>
           </div>
@@ -322,58 +322,7 @@ function OnlyLawSection() {
 }
 
 /* ─── Reports Section ──────────────────────────────────── */
-function ReportCover({ idx }: { idx: number }) {
-  if (idx === 0) {
-    return (
-      <div style={{ height: 200, background: "linear-gradient(135deg,#0A0E1A 0%,#1A2138 100%)", position: "relative", overflow: "hidden", display: "flex", alignItems: "flex-end", padding: 24 }}>
-        <svg viewBox="0 0 320 200" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-          {Array.from({ length: 13 }).map((_, i) => (
-            <line key={i} x1={20 + i * 24} y1={20 + (i % 4) * 12} x2={20 + i * 24} y2={180} stroke="#4A7BFF" strokeWidth="2" opacity={0.35 + (i % 5) * 0.12} />
-          ))}
-          {Array.from({ length: 13 }).map((_, i) => (
-            <circle key={i} cx={20 + i * 24} cy={20 + (i % 4) * 12} r="3" fill="#4A7BFF" opacity="0.85" />
-          ))}
-        </svg>
-        <span style={{ position: "relative", color: "#F5F7FA", fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.14em", fontWeight: 600 }}>VOL.02 · 2026.05</span>
-      </div>
-    );
-  }
-  if (idx === 1) {
-    return (
-      <div style={{ height: 200, background: "linear-gradient(135deg,#131826 0%,#0A0E1A 100%)", position: "relative", overflow: "hidden", display: "flex", alignItems: "flex-end", padding: 24 }}>
-        <svg viewBox="0 0 320 200" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor="#4A7BFF" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#4A7BFF" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <path d="M0,160 C40,140 80,90 120,100 C160,110 200,60 240,55 C280,50 320,30 320,30" stroke="#4A7BFF" strokeWidth="2.5" fill="none" />
-          <path d="M0,160 C40,140 80,90 120,100 C160,110 200,60 240,55 C280,50 320,30 320,30 L320,200 L0,200 Z" fill="url(#g1)" opacity="0.45" />
-        </svg>
-        <span style={{ position: "relative", color: "#F5F7FA", fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.14em", fontWeight: 600 }}>VOL.01 · 2026.04</span>
-      </div>
-    );
-  }
-  return (
-    <div style={{ height: 200, background: "linear-gradient(135deg,#F5F5F7 0%,#E8E8ED 100%)", position: "relative", overflow: "hidden", display: "flex", alignItems: "flex-end", padding: 24 }}>
-      <svg viewBox="0 0 320 200" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-        {Array.from({ length: 9 }).map((_, i) => (
-          <rect key={i} x={20 + (i % 3) * 100} y={20 + Math.floor(i / 3) * 56} width="80" height="40" rx="6" fill={i === 4 ? "#0A0E1A" : "#FFFFFF"} stroke="#0A0E1A" strokeWidth="1" />
-        ))}
-      </svg>
-      <span style={{ position: "relative", color: "#0A0E1A", fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.14em", fontWeight: 600 }}>SERIES · MONTHLY</span>
-    </div>
-  );
-}
-
 function ReportsSection() {
-  const reports = [
-    { date: "2026.05", title: "한국 로펌 GEO·AEO 준비도 리포트 (Vol.2)", meta: "전 분야 · 48p" },
-    { date: "2026.04", title: "한국 로펌 AI 인용 리포트 (Vol.1)", meta: "전 분야 · 64p" },
-    { date: "Series", title: "분야별 인용 트렌드 시리즈", meta: "9개 분야 · 매월 발행" },
-  ];
-
   return (
     <section id="reports" className="s s-lg bg-fog" data-screen-label="07 Reports">
       <div className="wrap">
@@ -384,28 +333,75 @@ function ReportsSection() {
         </Reveal>
         <Reveal delay={140}>
           <p className="t-sub" style={{ marginTop: 24, maxWidth: 760 }}>
-            InAnswer만이 보유한 10만개 이상의 독자적인 데이터를 리포트로 매월 공개합니다.
+            InAnswer만이 보유한 10만 건 이상의 독자적인 데이터를 리포트로 매월 공개합니다.
           </p>
         </Reveal>
 
         <div style={{ marginTop: 56, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-          {reports.map((r, i) => (
-            <Reveal key={i} delay={i * 100}>
-              <a href="#" className="report-card">
-                <ReportCover idx={i} />
-                <div style={{ padding: 28, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--graphite)", letterSpacing: "0.08em", fontWeight: 600 }}>{r.date}</div>
-                  <div className="t-h-sm" style={{ color: "var(--ink)", margin: 0 }}>{r.title}</div>
-                  <div style={{ fontSize: 13, color: "var(--graphite)", marginTop: "auto" }}>{r.meta}</div>
+          {/* 카드 1: 실제 리포트 */}
+          <Reveal delay={0}>
+            <a href="/reports/ai-citation-v1" className="report-card">
+              <div style={{ height: 200, background: "linear-gradient(145deg, #1B3A2D 0%, #0F2318 60%, #162E22 100%)", position: "relative", overflow: "hidden", display: "flex", alignItems: "flex-end", padding: 24 }}>
+                <svg viewBox="0 0 320 200" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+                  {[40.2, 20.2, 19.0, 18.3, 17.0].map((v, i) => (
+                    <rect key={i} x={24 + i * 58} y={200 - v * 2.8} width={38} height={v * 2.8}
+                      fill={i === 0 ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)"} rx="3" />
+                  ))}
+                  <line x1="16" y1="87" x2="310" y2="87" stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="4 4" />
+                  <text x="43" y="81" fill="rgba(255,255,255,0.7)" fontSize="9" fontFamily="monospace" textAnchor="middle">40.2%</text>
+                </svg>
+                <span style={{ position: "relative", color: "#F5F7FA", fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.14em", fontWeight: 600 }}>VOL.1 · 2026.05</span>
+              </div>
+              <div style={{ padding: 28, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--graphite)", letterSpacing: "0.08em", fontWeight: 600 }}>2026.05 · VOL.1</div>
+                <div className="t-h-sm" style={{ color: "var(--ink)", margin: 0 }}>대한민국 로펌 AI 인용 현황 리포트</div>
+                <div style={{ fontSize: 13, color: "var(--graphite)" }}>생성형 AI 4종 · 8개 법률 분야 · 30,212건 답변 기반</div>
+                <div style={{ marginTop: "auto", display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--azure)", fontWeight: 600 }}>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3M1 10h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  PDF 다운로드
                 </div>
-              </a>
-            </Reveal>
-          ))}
+              </div>
+            </a>
+          </Reveal>
+
+          {/* 카드 2: 공개 예정 */}
+          <Reveal delay={100}>
+            <div className="report-card" style={{ cursor: "default", opacity: 0.7 }}>
+              <div style={{ height: 200, background: "linear-gradient(135deg,#131826 0%,#0A0E1A 100%)", position: "relative", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "0.16em", marginBottom: 12 }}>COMING SOON</div>
+                  <div style={{ width: 48, height: 2, background: "rgba(255,255,255,0.3)", margin: "0 auto" }} />
+                </div>
+              </div>
+              <div style={{ padding: 28, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                <div style={{ display: "inline-flex", alignSelf: "flex-start", padding: "3px 10px", borderRadius: 999, background: "rgba(0,113,227,0.08)", border: "1px solid rgba(0,113,227,0.15)", fontSize: 11, fontWeight: 600, color: "var(--azure)" }}>공개 예정</div>
+                <div className="t-h-sm" style={{ color: "var(--ink)", margin: 0 }}>대한민국 로펌 GEO 점수 현황 리포트</div>
+                <div style={{ fontSize: 13, color: "var(--graphite)", marginTop: "auto" }}>전 분야 · 발행 예정</div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* 카드 3: 공개 예정 */}
+          <Reveal delay={200}>
+            <div className="report-card" style={{ cursor: "default", opacity: 0.7 }}>
+              <div style={{ height: 200, background: "linear-gradient(135deg,#2A2A2E 0%,#1A1A1E 100%)", position: "relative", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "0.16em", marginBottom: 12 }}>COMING SOON</div>
+                  <div style={{ width: 48, height: 2, background: "rgba(255,255,255,0.3)", margin: "0 auto" }} />
+                </div>
+              </div>
+              <div style={{ padding: 28, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                <div style={{ display: "inline-flex", alignSelf: "flex-start", padding: "3px 10px", borderRadius: 999, background: "rgba(0,113,227,0.08)", border: "1px solid rgba(0,113,227,0.15)", fontSize: 11, fontWeight: 600, color: "var(--azure)" }}>공개 예정</div>
+                <div className="t-h-sm" style={{ color: "var(--ink)", margin: 0 }}>AI 인용 로펌 순위 : 가사·이혼</div>
+                <div style={{ fontSize: 13, color: "var(--graphite)", marginTop: "auto" }}>분야별 시리즈 · 발행 예정</div>
+              </div>
+            </div>
+          </Reveal>
         </div>
 
         <Reveal delay={300}>
           <div style={{ marginTop: 48, textAlign: "center" }}>
-            <a href="#" style={{ color: "var(--ink)", fontSize: 17, textDecoration: "underline", textUnderlineOffset: 6, fontWeight: 500 }}>
+            <a href="/reports/ai-citation-v1" style={{ color: "var(--ink)", fontSize: 17, textDecoration: "underline", textUnderlineOffset: 6, fontWeight: 500 }}>
               전체 리포트 보기 →
             </a>
           </div>
@@ -429,7 +425,7 @@ function FaqSection() {
         <Reveal>
           <h2 className="t-h1" style={{ margin: 0 }}>자주 묻는<br />질문.</h2>
           <p className="t-sub" style={{ marginTop: 24, maxWidth: 320 }}>그 외 궁금한 내용은 30분 무료 상담에서 직접 다룹니다.</p>
-          <a href="#cta" className="btn btn-ghost" style={{ marginTop: 24, padding: "14px 0" }}>상담 신청 →</a>
+          <a href="/consult" className="btn btn-ghost" style={{ marginTop: 24, padding: "14px 0" }}>상담 신청 →</a>
         </Reveal>
         <Reveal delay={150}>
           <div style={{ borderTop: "1px solid var(--silver-mist)" }}>
@@ -442,82 +438,6 @@ function FaqSection() {
 }
 
 /* ─── Final CTA Section ────────────────────────────────── */
-function ContactForm() {
-  const [form, setForm] = useState({ company: "", name: "", phone: "", email: "" });
-  const [focused, setFocused] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState(false);
-
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async () => {
-    if (!form.company || !form.name || !form.phone || !form.email) return;
-    setLoading(true);
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error("server error");
-      setSubmitted(true);
-    } catch {
-      alert("전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (submitted) {
-    return (
-      <div style={{ background: "var(--stage-surface)", border: "1px solid var(--stage-border)", borderRadius: "var(--r-card)", padding: 40, maxWidth: 640, marginInline: "auto", textAlign: "center" }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>✓</div>
-        <div style={{ fontSize: 20, fontWeight: 600, color: "var(--stage-text)", marginBottom: 12 }}>신청이 완료되었습니다.</div>
-        <div style={{ fontSize: 15, color: "var(--stage-text-secondary)", lineHeight: 1.6 }}>
-          입력해주신 연락처로 평일 48시간 내에 담당자가 연락드리겠습니다.<br />
-          {form.company} · {form.name}님, 감사합니다.
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div style={{ background: "var(--stage-surface)", border: "1px solid var(--stage-border)", borderRadius: "var(--r-card)", padding: 40, maxWidth: 640, marginInline: "auto", textAlign: "left" }}>
-      <div style={{ fontSize: 18, fontWeight: 600, color: "var(--stage-text)", marginBottom: 6, letterSpacing: "-0.012em" }}>30분 무료 컨설팅 신청</div>
-      <div style={{ fontSize: 13, color: "var(--stage-text-secondary)", marginBottom: 28, lineHeight: 1.5 }}>
-        아래 정보를 남겨주시면 평일 48시간 내에 담당자가 연락드립니다.
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-        {[
-          { key: "company", label: "로펌(회사)명", type: "text", placeholder: "법무법인 OOO" },
-          { key: "name", label: "담당자", type: "text", placeholder: "홍길동" },
-          { key: "phone", label: "연락처", type: "tel", placeholder: "010-1234-5678" },
-          { key: "email", label: "이메일", type: "email", placeholder: "name@lawfirm.com" },
-        ].map(({ key, label, type, placeholder }) => (
-          <div key={key}>
-            <label className="cta-form-label">{label}</label>
-            <input
-              type={type}
-              value={form[key as keyof typeof form]}
-              onChange={e => setForm({ ...form, [key]: e.target.value })}
-              onFocus={() => setFocused(key)}
-              onBlur={() => setFocused(null)}
-              placeholder={placeholder}
-              className="cta-form-field"
-              style={{ borderColor: focused === key ? "var(--stage-accent)" : undefined }}
-            />
-          </div>
-        ))}
-      </div>
-      <button id="btn-form-submit" onClick={handleSubmit} disabled={loading} className="btn btn-azure" style={{ width: "100%", padding: "16px 24px", fontSize: 16, marginTop: 8, opacity: loading ? 0.6 : 1 }}>
-        {loading ? "전송 중…" : <>신청하기<span className="arrow" aria-hidden>→</span></>}
-      </button>
-      <div style={{ marginTop: 18, fontSize: 12, color: "var(--stage-text-secondary)", textAlign: "center", letterSpacing: "0.01em" }}>
-        비밀유지 보장 · 본 컨설팅까지 비용 없음 · 평일 48시간 내 회신
-      </div>
-    </div>
-  );
-}
-
 function FinalCtaSection() {
   return (
     <section id="cta" className="s s-lg bg-stage stage" data-screen-label="08 Final CTA">
@@ -529,13 +449,19 @@ function FinalCtaSection() {
           </h2>
         </Reveal>
         <Reveal delay={160}>
-          <p style={{ marginTop: 36, fontSize: 20, fontWeight: 400, lineHeight: 1.6, color: "rgba(245,247,250,0.88)", maxWidth: 720, marginInline: "auto", letterSpacing: "-0.008em" }}>
-            귀사의 AI 인용 현황과 로펌 GEO·AEO 분석 리포트를 무료로 제공해 드립니다.
+          <p style={{ marginTop: 36, fontSize: "clamp(16px, 1.8vw, 20px)", fontWeight: 400, lineHeight: 1.6, color: "rgba(245,247,250,0.88)", maxWidth: 640, marginInline: "auto", letterSpacing: "-0.008em" }}>
+            지금 우리 로펌이 AI에서 어디 있는지 보여드립니다.<br />
+            그리고 올라가는 방법까지 알려드립니다.
           </p>
         </Reveal>
         <Reveal delay={260}>
-          <div style={{ marginTop: 48 }}>
-            <ContactForm />
+          <div style={{ marginTop: 48, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+            <a id="btn-form-submit" href="/consult" className="btn btn-azure" style={{ fontSize: "clamp(15px, 1.6vw, 17px)", padding: "18px 40px" }}>
+              30분 무료 컨설팅 신청<span className="arrow" aria-hidden>→</span>
+            </a>
+          </div>
+          <div style={{ marginTop: 20, fontSize: 13, color: "rgba(245,247,250,0.5)", letterSpacing: "0.01em" }}>
+            비밀유지 보장 · 진단까지 비용 없음 · 평일 48시간 내 회신
           </div>
         </Reveal>
       </div>
@@ -558,18 +484,16 @@ function Footer() {
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--graphite)", marginBottom: 16, fontFamily: "var(--font-mono)" }}>Contact</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10, color: "var(--ash)", fontSize: 14 }}>
             <a href="mailto:contact@inanswer.kr" style={{ color: "var(--ink)", fontWeight: 500 }}>contact@inanswer.kr</a>
-            <a href="mailto:press@inanswer.kr">press@inanswer.kr (보도자료)</a>
-            <a href="#cta" style={{ color: "var(--graphite)" }}>30분 무료 상담 →</a>
           </div>
         </div>
         <div>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--graphite)", marginBottom: 16, fontFamily: "var(--font-mono)" }}>Company</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, color: "var(--ash)", fontSize: 13, lineHeight: 1.55 }}>
-            <div><span style={{ color: "var(--graphite)" }}>상호</span> &nbsp; 주식회사 인앤써</div>
-            <div><span style={{ color: "var(--graphite)" }}>설립</span> &nbsp; 2024</div>
-            <div><span style={{ color: "var(--graphite)" }}>주소</span> &nbsp; 서울특별시 강남구</div>
-            <div><span style={{ color: "var(--graphite)" }}>대표</span> &nbsp; <span style={{ color: "var(--graphite)", fontStyle: "italic" }}>발행 시 기재 예정</span></div>
-            <div><span style={{ color: "var(--graphite)" }}>사업자등록번호</span> &nbsp; <span style={{ color: "var(--graphite)", fontStyle: "italic" }}>발행 시 기재 예정</span></div>
+            <div><span style={{ color: "var(--graphite)" }}>상호</span> &nbsp; 엔유액셀러레이터</div>
+            <div><span style={{ color: "var(--graphite)" }}>설립</span> &nbsp; 2023</div>
+            <div><span style={{ color: "var(--graphite)" }}>주소</span> &nbsp; 서울특별시 강남구 테헤란로 20길, 18</div>
+            <div><span style={{ color: "var(--graphite)" }}>대표</span> &nbsp; 장재용</div>
+            <div><span style={{ color: "var(--graphite)" }}>사업자등록번호</span> &nbsp; 519-88-02607</div>
           </div>
         </div>
       </div>
