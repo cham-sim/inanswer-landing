@@ -117,13 +117,6 @@ function DownloadForm() {
       const data = await res.json() as { success?: boolean; ok?: boolean; error?: string };
       if (data.success || data.ok) {
         setSubmitted(true);
-        const a = document.createElement("a");
-        a.href = "/report-ai-citation-v1.pdf";
-        a.download = "대한민국로펌AI인용현황리포트_2026.05.pdf";
-        a.target = "_blank";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
       } else {
         setServerError(data.error ?? "오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
       }
@@ -142,11 +135,9 @@ function DownloadForm() {
             <path d="M5 13l4 4L19 7" stroke="#1B3A2D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
-        <div style={{ fontSize: 17, fontWeight: 600, color: "var(--ink)", marginBottom: 8 }}>다운로드가 시작되었습니다.</div>
+        <div style={{ fontSize: 17, fontWeight: 600, color: "var(--ink)", marginBottom: 8 }}>리포트가 발송되었습니다.</div>
         <div style={{ fontSize: 13, color: "var(--graphite)", lineHeight: 1.7 }}>
-          자동으로 PDF가 다운로드됩니다.<br />
-          시작되지 않으면{" "}
-          <a href="/report-ai-citation-v1.pdf" target="_blank" style={{ color: "#1B3A2D", fontWeight: 600 }}>여기를 클릭</a>하세요.
+          입력하신 이메일 주소로 PDF가 첨부된<br />메일이 발송되었습니다.
         </div>
       </div>
     );
@@ -154,9 +145,9 @@ function DownloadForm() {
 
   return (
     <>
-      <div style={{ fontSize: 17, fontWeight: 700, color: "var(--ink)", marginBottom: 4 }}>전체 리포트 무료 다운로드</div>
+      <div style={{ fontSize: 17, fontWeight: 700, color: "var(--ink)", marginBottom: 4 }}>전체 리포트 이메일로 받기</div>
       <div style={{ fontSize: 13, color: "var(--graphite)", marginBottom: 24, lineHeight: 1.6 }}>
-        아래 정보를 입력하시면 PDF를 즉시 다운로드할 수 있습니다.
+        아래 정보를 입력하시면 PDF를 이메일로 보내드립니다.
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {[
@@ -225,12 +216,13 @@ function DownloadForm() {
           transition: "background 200ms",
         }}
       >
-        {loading ? "처리 중..." : (
+        {loading ? "발송 중..." : (
           <>
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-              <path d="M8 1v9M5 7l3 3 3-3M2 13h12" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M22 6l-10 7L2 6" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            PDF 무료 다운로드
+            이메일로 리포트 받기
           </>
         )}
       </button>
