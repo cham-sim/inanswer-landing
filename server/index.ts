@@ -6,6 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { Resend } from "resend";
 import { buildReportEmailHtml } from "../api/report-email-html.js";
+import { REPORT_PDF_FILENAME, REPORT_PDF_DISPLAY_NAME } from "../api/report-config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -74,10 +75,10 @@ async function startServer() {
 
       let attachments: { filename: string; content: Buffer }[] = [];
       try {
-        const pdfPath = path.resolve(__dirname, "..", "client", "public", "lawfirm-geo-report-202605.pdf");
+        const pdfPath = path.resolve(__dirname, "..", "client", "public", REPORT_PDF_FILENAME);
         console.log("[report-download] PDF path:", pdfPath);
         const pdfBuffer = await readFile(pdfPath);
-        attachments = [{ filename: "대한민국로펌AI인용현황리포트_2026.05.pdf", content: pdfBuffer }];
+        attachments = [{ filename: REPORT_PDF_DISPLAY_NAME, content: pdfBuffer }];
         console.log("[report-download] PDF loaded, size:", pdfBuffer.length);
       } catch (e) {
         console.error("[report-download] PDF read failed:", e);
@@ -85,7 +86,7 @@ async function startServer() {
 
       console.log("[report-download] Sending email to:", email, "from:", fromEmail);
       const siteUrl = process.env.SITE_URL ?? "https://inanswer.kr";
-      const pdfUrl = `${siteUrl}/lawfirm-geo-report-202605.pdf`;
+      const pdfUrl = `${siteUrl}/${REPORT_PDF_FILENAME}`;
       const consultUrl = `${siteUrl}/consult`;
 
       const { data, error } = await resend.emails.send({

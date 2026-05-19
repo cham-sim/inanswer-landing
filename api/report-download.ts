@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { Resend } from "resend";
 import { buildReportEmailHtml } from "./report-email-html.js";
+import { REPORT_PDF_FILENAME, REPORT_PDF_DISPLAY_NAME } from "./report-config.js";
 
 export default async function handler(req: IncomingMessage & { body?: unknown }, res: ServerResponse) {
   if (req.method !== "POST") {
@@ -42,17 +43,17 @@ export default async function handler(req: IncomingMessage & { body?: unknown },
     // Fetch PDF and attach
     let attachments: { filename: string; content: string }[] = [];
     try {
-      const pdfRes = await fetch(`${siteUrl}/report-ai-citation-v1.pdf`);
+      const pdfRes = await fetch(`${siteUrl}/${REPORT_PDF_FILENAME}`);
       if (pdfRes.ok) {
         const buf = await pdfRes.arrayBuffer();
         attachments = [{
-          filename: "대한민국로펌AI인용현황리포트_2026.05.pdf",
+          filename: REPORT_PDF_DISPLAY_NAME,
           content: Buffer.from(buf).toString("base64"),
         }];
       }
     } catch { /* PDF 첨부 실패 시 본문만 발송 */ }
 
-    const pdfUrl = `${siteUrl}/report-ai-citation-v1.pdf`;
+    const pdfUrl = `${siteUrl}/${REPORT_PDF_FILENAME}`;
     const consultUrl = `${siteUrl}/consult`;
 
     const { error } = await resend.emails.send({
