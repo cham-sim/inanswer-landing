@@ -81,7 +81,7 @@ const TOP10 = [
   { rank: 10, name: "지평", pct: 7.7 },
 ];
 
-function DownloadForm() {
+function DownloadForm({ reportId }: { reportId: string }) {
   const [form, setForm] = useState({ name: "", company: "", email: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -112,7 +112,7 @@ function DownloadForm() {
       const res = await fetch("/api/report-download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, reportId: "ai-citation-v1" }),
+        body: JSON.stringify({ ...form, reportId }),
       });
       const data = await res.json() as { success?: boolean; ok?: boolean; error?: string };
       if (data.success || data.ok) {
@@ -231,7 +231,7 @@ function DownloadForm() {
   );
 }
 
-export default function Report() {
+export default function LawfirmGeoReport202605({ reportId }: { reportId: string }) {
   return (
     <div style={{ background: "var(--fog)", minHeight: "100vh" }}>
       {/* 심플 헤더 */}
@@ -379,7 +379,7 @@ export default function Report() {
             </div>
           </div>
           <div style={{ background: "var(--snow)", borderRadius: 20, padding: "36px 32px" }}>
-            <DownloadForm />
+            <DownloadForm reportId={reportId} />
           </div>
         </div>
       </section>

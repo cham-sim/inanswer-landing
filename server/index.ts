@@ -74,7 +74,7 @@ async function startServer() {
 
       let attachments: { filename: string; content: Buffer }[] = [];
       try {
-        const pdfPath = path.resolve(__dirname, "..", "client", "public", "report-ai-citation-v1.pdf");
+        const pdfPath = path.resolve(__dirname, "..", "client", "public", "lawfirm-geo-report-202605.pdf");
         console.log("[report-download] PDF path:", pdfPath);
         const pdfBuffer = await readFile(pdfPath);
         attachments = [{ filename: "대한민국로펌AI인용현황리포트_2026.05.pdf", content: pdfBuffer }];
@@ -85,7 +85,7 @@ async function startServer() {
 
       console.log("[report-download] Sending email to:", email, "from:", fromEmail);
       const siteUrl = process.env.SITE_URL ?? "https://inanswer.kr";
-      const pdfUrl = `${siteUrl}/report-ai-citation-v1.pdf`;
+      const pdfUrl = `${siteUrl}/lawfirm-geo-report-202605.pdf`;
       const consultUrl = `${siteUrl}/consult`;
 
       const { data, error } = await resend.emails.send({

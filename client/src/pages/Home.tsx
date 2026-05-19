@@ -340,7 +340,7 @@ function ReportsSection() {
         <div style={{ marginTop: 56, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
           {/* 카드 1: 실제 리포트 */}
           <Reveal delay={0}>
-            <a href="/reports/ai-citation-v1" className="report-card">
+            <a href="/reports/lawfirm-geo-report-202605" className="report-card">
               <div style={{ height: 200, background: "linear-gradient(145deg, #1B3A2D 0%, #0F2318 60%, #162E22 100%)", position: "relative", overflow: "hidden", display: "flex", alignItems: "flex-end", padding: 24 }}>
                 <svg viewBox="0 0 320 200" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
                   {[40.2, 20.2, 19.0, 18.3, 17.0].map((v, i) => (
@@ -401,7 +401,7 @@ function ReportsSection() {
 
         <Reveal delay={300}>
           <div style={{ marginTop: 48, textAlign: "center" }}>
-            <a href="/reports/ai-citation-v1" style={{ color: "var(--ink)", fontSize: 17, textDecoration: "underline", textUnderlineOffset: 6, fontWeight: 500 }}>
+            <a href="/reports/lawfirm-geo-report-202605" style={{ color: "var(--ink)", fontSize: 17, textDecoration: "underline", textUnderlineOffset: 6, fontWeight: 500 }}>
               전체 리포트 보기 →
             </a>
           </div>
