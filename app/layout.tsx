@@ -84,9 +84,9 @@ const organizationJsonLd = {
   logo: "https://inanswer.kr/logo.png",
   description:
     "국내 로펌 전용 AI 검색 가시성·콘텐츠 운영 시스템. 850개 표준 법률질문과 LLM 4개 기반으로 로펌의 AI 검색 가시성을 측정하고 준법형 콘텐츠를 제작합니다.",
-  foundingDate: "2024",
+  foundingDate: "2023",
   areaServed: "KR",
-  serviceType: ["AI 검색 가시성 모니터링", "법률 콘텐츠 마케팅", "GEO·AEO 컨설팅"],
+  knowsAbout: ["AI 검색 가시성 모니터링", "법률 콘텐츠 마케팅", "GEO·AEO 컨설팅"],
   contactPoint: {
     "@type": "ContactPoint",
     email: "contact@inanswer.kr",

@@ -22,8 +22,8 @@ function HeroSection() {
         muted
         loop
         playsInline
-        preload="auto"
-        poster="/hero-poster.jpg"
+        preload="none"
+        poster="/hero-poster.webp"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none", filter: "brightness(0.6) saturate(0.9)" }}
       >
         <source src="/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
