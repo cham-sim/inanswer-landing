@@ -1,9 +1,9 @@
 import { Resend } from "resend";
-import { buildReportEmailHtml } from "./report-email-html.js";
-import type { Report } from "./report-config.js";
-import { REPORT_EMAIL_FROM } from "./report-config.js";
-import { makeReportToken } from "./report-token.js";
-import { appendReportRow } from "./sheets.js";
+import { buildReportEmailHtml } from "./report-email-html";
+import type { Report } from "./report-config";
+import { REPORT_EMAIL_FROM } from "./report-config";
+import { makeReportToken } from "./report-token";
+import { appendReportRow } from "./sheets";
 
 export async function sendReportEmail({
   report,

@@ -1,17 +1,1 @@
-{
-  "buildCommand": "pnpm vite build",
-  "outputDirectory": "dist/public",
-  "installCommand": "pnpm install",
-  "framework": null,
-  "functions": {
-    "api/report-file.ts": {
-      "includeFiles": "private/**"
-    }
-  },
-  "rewrites": [
-    { "source": "/api/contact", "destination": "/api/contact" },
-    { "source": "/api/report-download", "destination": "/api/report-download" },
-    { "source": "/api/report-file", "destination": "/api/report-file" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
+{ "framework": "nextjs" }

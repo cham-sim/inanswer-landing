@@ -1,14 +1,12 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import AlertCircle from "lucide-react/dist/esm/icons/alert-circle";
-import Home from "lucide-react/dist/esm/icons/home";
-import { useLocation } from "wouter";
+import { AlertCircle, Home } from "lucide-react";
 
 export default function NotFound() {
-  const [, setLocation] = useLocation();
-
   const handleGoHome = () => {
-    setLocation("/");
+    window.location.href = "/";
   };
 
   return (
