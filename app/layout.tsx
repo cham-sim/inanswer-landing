@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Providers } from "./providers";
+import NavWrapper from "@/components/NavWrapper";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -289,7 +291,11 @@ gtag('config', 'G-52H5WY278Y');`}
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        <Providers>{children}</Providers>
+        <Providers>
+          <NavWrapper />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

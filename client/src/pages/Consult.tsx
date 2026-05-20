@@ -93,14 +93,6 @@ export default function Consult() {
 
   return (
     <div style={{ background: "var(--fog)", minHeight: "100vh" }}>
-      {/* 심플 헤더 */}
-      <header style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(245,245,247,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--silver-mist)", padding: "0" }}>
-        <div className="wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 56 }}>
-          <a href="/" style={{ fontWeight: 700, fontSize: 16, color: "var(--ink)", textDecoration: "none", letterSpacing: "-0.02em" }}>InAnswer</a>
-          <a href="/reports/lawfirm-geo-report-202605" style={{ fontSize: 13, color: "var(--graphite)", textDecoration: "none" }}>리포트 보기 →</a>
-        </div>
-      </header>
-
       {/* 메인 콘텐츠 */}
       <section style={{ padding: "64px 0 80px" }}>
         <div className="wrap consult-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: 72, alignItems: "start" }}>
@@ -276,16 +268,6 @@ export default function Consult() {
         </div>
       </section>
 
-      {/* 푸터 */}
-      <footer style={{ background: "var(--ink)", padding: "20px 0" }}>
-        <div className="wrap" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>© 2026 INANSWER Inc.</div>
-          <div style={{ display: "flex", gap: 20 }}>
-            <a href="/" style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>홈으로</a>
-            <a href="/reports/lawfirm-geo-report-202605" style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>리포트</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
