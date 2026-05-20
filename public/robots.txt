@@ -3,36 +3,9 @@
 
 User-agent: *
 Allow: /
+Allow: /_next/static/
+Disallow: /_next/
 Disallow: /api/
-
-# ─── AI 크롤러 명시적 허용 (GEO 최적화) ───────────────────────────
-# OpenAI GPTBot
-User-agent: GPTBot
-Allow: /
-
-# Anthropic ClaudeBot
-User-agent: ClaudeBot
-Allow: /
-
-# Google Gemini / Bard
-User-agent: Google-Extended
-Allow: /
-
-# Perplexity
-User-agent: PerplexityBot
-Allow: /
-
-# Meta AI
-User-agent: FacebookBot
-Allow: /
-
-# Common Crawl (LLM 학습 데이터)
-User-agent: CCBot
-Allow: /
-
-# Cohere AI
-User-agent: cohere-ai
-Allow: /
 
 # ─── Content Signals (AI 콘텐츠 사용 선호도 선언) ────────────────
 # https://contentsignals.org/
