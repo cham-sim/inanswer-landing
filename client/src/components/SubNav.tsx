@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function SubNav() {
+export default function SubNav({ hideLinks }: { hideLinks?: boolean } = {}) {
   const [active, setActive] = useState("hero");
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -46,46 +46,52 @@ export default function SubNav() {
     <>
       <div className="subnav">
         <div className="wrap subnav-row">
-          <a href="#hero" className="subnav-brand" onClick={handleNavClick}>
+          <a href={hideLinks ? "/" : "#hero"} className="subnav-brand" onClick={handleNavClick}>
             InAnswer
           </a>
-          <nav className="subnav-links">
-            {links.map(([id, label]) => (
-              <a key={id} href={`#${id}`} className={active === id ? "active" : ""}>
-                {label}
-              </a>
-            ))}
-          </nav>
+          {!hideLinks && (
+            <nav className="subnav-links">
+              {links.map(([id, label]) => (
+                <a key={id} href={`#${id}`} className={active === id ? "active" : ""}>
+                  {label}
+                </a>
+              ))}
+            </nav>
+          )}
           <a id="btn-header-cta" href="/consult" className="btn btn-azure btn-sm" onClick={handleNavClick}>
             상담 신청
           </a>
-          <button
-            className={`subnav-hamburger${menuOpen ? " open" : ""}`}
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label="메뉴 열기"
-          >
-            <span />
-            <span />
-            <span />
-          </button>
+          {!hideLinks && (
+            <button
+              className={`subnav-hamburger${menuOpen ? " open" : ""}`}
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-label="메뉴 열기"
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          )}
         </div>
       </div>
 
       {/* Mobile dropdown menu */}
-      <div className={`subnav-mobile-menu${menuOpen ? " open" : ""}`}>
-        {links.map(([id, label]) => (
-          <a key={id} href={`#${id}`} onClick={handleNavClick}>
-            {label}
+      {!hideLinks && (
+        <div className={`subnav-mobile-menu${menuOpen ? " open" : ""}`}>
+          {links.map(([id, label]) => (
+            <a key={id} href={`#${id}`} onClick={handleNavClick}>
+              {label}
+            </a>
+          ))}
+          <a
+            href="/consult"
+            onClick={handleNavClick}
+            style={{ color: "var(--azure)", fontWeight: 600 }}
+          >
+            상담 신청 →
           </a>
-        ))}
-        <a
-          href="/consult"
-          onClick={handleNavClick}
-          style={{ color: "var(--azure)", fontWeight: 600 }}
-        >
-          상담 신청 →
-        </a>
-      </div>
+        </div>
+      )}
     </>
   );
 }

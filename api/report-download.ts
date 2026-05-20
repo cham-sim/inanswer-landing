@@ -1,7 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "http";
-import { Resend } from "resend";
-import { buildReportEmailHtml } from "./report-email-html.js";
-import { REPORT_PDF_FILENAME, REPORT_PDF_DISPLAY_NAME } from "./report-config.js";
+import { getReport } from "./report-config.js";
+import { sendReportEmail, notifySlack } from "./report-send.js";
 
 export default async function handler(req: IncomingMessage & { body?: unknown }, res: ServerResponse) {
   if (req.method !== "POST") {
@@ -31,59 +30,14 @@ export default async function handler(req: IncomingMessage & { body?: unknown },
     return;
   }
 
-  // Send email via Resend
-  let emailStatus = "skipped";
-  const resendApiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.FROM_EMAIL ?? "InAnswer <noreply@inanswer.kr>";
+  const report = getReport(reportId);
   const siteUrl = process.env.SITE_URL ?? "https://inanswer.kr";
 
-  if (resendApiKey) {
-    const resend = new Resend(resendApiKey);
+  const emailStatus = report
+    ? await sendReportEmail({ report, name, email, siteUrl })
+    : "skipped";
 
-    // Fetch PDF and attach
-    let attachments: { filename: string; content: string }[] = [];
-    try {
-      const pdfRes = await fetch(`${siteUrl}/${REPORT_PDF_FILENAME}`);
-      if (pdfRes.ok) {
-        const buf = await pdfRes.arrayBuffer();
-        attachments = [{
-          filename: REPORT_PDF_DISPLAY_NAME,
-          content: Buffer.from(buf).toString("base64"),
-        }];
-      }
-    } catch { /* PDF 첨부 실패 시 본문만 발송 */ }
-
-    const pdfUrl = `${siteUrl}/${REPORT_PDF_FILENAME}`;
-    const consultUrl = `${siteUrl}/consult`;
-
-    const { error } = await resend.emails.send({
-      from: fromEmail,
-      to: email,
-      subject: "[InAnswer] 대한민국 로펌 AI 인용 현황 리포트",
-      html: buildReportEmailHtml(name, pdfUrl, consultUrl),
-      attachments,
-    });
-    emailStatus = error ? `failed: ${error.message}` : "sent";
-  }
-
-  // Notify Slack
-  const webhookUrl = process.env.SLACK_WEBHOOK_URL;
-  if (webhookUrl) {
-    const emailEmoji = emailStatus === "sent" ? ":white_check_mark:" : emailStatus === "skipped" ? ":grey_question:" : ":x:";
-    const text = [
-      `*리포트 다운로드 요청* :page_facing_up:`,
-      `• *리포트*: ${reportId ?? "unknown"}`,
-      `• *이름*: ${name}`,
-      `• *소속*: ${company}`,
-      `• *이메일*: ${email}`,
-      `• *메일 발송*: ${emailEmoji} ${emailStatus}`,
-    ].join("\n");
-    await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text }),
-    }).catch(() => {});
-  }
+  await notifySlack({ name, company, email, reportId, emailStatus });
 
   res.writeHead(200, { "Content-Type": "application/json" });
   res.end(JSON.stringify({ ok: true, success: true }));

@@ -4,9 +4,9 @@ import { readFile } from "fs/promises";
 import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
-import { Resend } from "resend";
-import { buildReportEmailHtml } from "../api/report-email-html.js";
-import { REPORT_PDF_FILENAME, REPORT_PDF_DISPLAY_NAME } from "../api/report-config.js";
+import { getReport } from "../api/report-config.js";
+import { sendReportEmail, notifySlack } from "../api/report-send.js";
+import { verifyReportToken } from "../api/report-token.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -63,69 +63,48 @@ async function startServer() {
       return;
     }
 
-    // Send email via Resend
-    let emailStatus = "skipped";
-    const resendApiKey = process.env.RESEND_API_KEY;
-    const fromEmail = process.env.FROM_EMAIL ?? "InAnswer <noreply@inanswer.kr>";
+    const report = getReport(reportId);
+    const siteUrl = process.env.NODE_ENV === "production"
+      ? (process.env.SITE_URL ?? "https://inanswer.kr")
+      : `${req.protocol}://${req.get("host")}`;
 
-    console.log("[report-download] RESEND_API_KEY:", resendApiKey ? "✓ set" : "✗ missing");
+    const emailStatus = report
+      ? await sendReportEmail({ report, name, email, siteUrl })
+      : "skipped";
 
-    if (resendApiKey) {
-      const resend = new Resend(resendApiKey);
-
-      let attachments: { filename: string; content: Buffer }[] = [];
-      try {
-        const pdfPath = path.resolve(__dirname, "..", "client", "public", REPORT_PDF_FILENAME);
-        console.log("[report-download] PDF path:", pdfPath);
-        const pdfBuffer = await readFile(pdfPath);
-        attachments = [{ filename: REPORT_PDF_DISPLAY_NAME, content: pdfBuffer }];
-        console.log("[report-download] PDF loaded, size:", pdfBuffer.length);
-      } catch (e) {
-        console.error("[report-download] PDF read failed:", e);
-      }
-
-      console.log("[report-download] Sending email to:", email, "from:", fromEmail);
-      const siteUrl = process.env.SITE_URL ?? "https://inanswer.kr";
-      const pdfUrl = `${siteUrl}/${REPORT_PDF_FILENAME}`;
-      const consultUrl = `${siteUrl}/consult`;
-
-      const { data, error } = await resend.emails.send({
-        from: fromEmail,
-        to: email,
-        subject: "[InAnswer] 대한민국 로펌 AI 인용 현황 리포트",
-        html: buildReportEmailHtml(name, pdfUrl, consultUrl),
-        attachments,
-      });
-      if (error) {
-        console.error("[report-download] Resend error:", error);
-        emailStatus = `failed: ${error.message}`;
-      } else {
-        console.log("[report-download] Resend success, id:", data?.id);
-        emailStatus = "sent";
-      }
-    }
-
-    if (process.env.NODE_ENV === "production") {
-      const webhookUrl = process.env.SLACK_WEBHOOK_URL;
-      if (webhookUrl) {
-        const emailEmoji = emailStatus === "sent" ? ":white_check_mark:" : emailStatus === "skipped" ? ":grey_question:" : ":x:";
-        const text = [
-          `*리포트 다운로드 요청* :page_facing_up:`,
-          `• *리포트*: ${reportId ?? "unknown"}`,
-          `• *이름*: ${name}`,
-          `• *소속*: ${company}`,
-          `• *이메일*: ${email}`,
-          `• *메일 발송*: ${emailEmoji} ${emailStatus}`,
-        ].join("\n");
-        await fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text }),
-        }).catch(() => {});
-      }
-    }
+    await notifySlack({ name, company, email, reportId, emailStatus });
 
     res.json({ ok: true, success: true });
+  });
+
+  app.get("/api/report-file", async (req, res) => {
+    const token = req.query.t as string | undefined;
+    if (!token) {
+      res.status(400).send("missing token");
+      return;
+    }
+
+    const payload = verifyReportToken(token);
+    if (!payload) {
+      res.status(403).send("invalid or tampered token");
+      return;
+    }
+
+    const report = getReport(payload.reportId);
+    if (!report) {
+      res.status(404).send("report not found");
+      return;
+    }
+
+    try {
+      const pdfPath = path.resolve(__dirname, "..", "private", report.pdfFilename);
+      const pdfBuffer = await readFile(pdfPath);
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", `attachment; filename="${report.pdfFilename}"; filename*=UTF-8''${encodeURIComponent(report.pdfDisplayName)}`);
+      res.send(pdfBuffer);
+    } catch {
+      res.status(404).send("file not found");
+    }
   });
 
   // Serve static files from dist/public in production
