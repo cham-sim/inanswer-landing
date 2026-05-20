@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import { getReport } from "../api/report-config.js";
 import { sendReportEmail, notifySlack } from "../api/report-send.js";
 import { verifyReportToken } from "../api/report-token.js";
+import { appendConsultRow } from "../api/sheets.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +25,8 @@ async function startServer() {
       return;
     }
 
+    const { message } = req.body ?? {};
+
     if (process.env.NODE_ENV === "production") {
       const webhookUrl = process.env.SLACK_WEBHOOK_URL;
       if (!webhookUrl) {
@@ -31,7 +34,6 @@ async function startServer() {
         return;
       }
 
-      const { message } = req.body ?? {};
       const text = [
         `*새 상담 신청이 들어왔습니다* :bell:`,
         `• *로펌(회사)*: ${company}`,
@@ -52,6 +54,8 @@ async function startServer() {
         return;
       }
     }
+
+    await appendConsultRow({ company, name, phone, email, message }).catch(() => {});
 
     res.json({ ok: true, success: true });
   });

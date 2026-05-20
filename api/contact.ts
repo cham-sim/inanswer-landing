@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "http";
+import { appendConsultRow } from "./sheets.js";
 
 export default async function handler(req: IncomingMessage & { body?: unknown }, res: ServerResponse) {
   if (req.method !== "POST") {
@@ -44,11 +45,14 @@ export default async function handler(req: IncomingMessage & { body?: unknown },
     message ? `• *문의 내용*: ${message}` : null,
   ].filter(Boolean).join("\n");
 
-  const slackRes = await fetch(webhookUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text }),
-  });
+  const [slackRes] = await Promise.all([
+    fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    }),
+    appendConsultRow({ company, name, phone, email, message }).catch(() => {}),
+  ]);
 
   if (!slackRes.ok) {
     res.writeHead(502, { "Content-Type": "application/json" });
