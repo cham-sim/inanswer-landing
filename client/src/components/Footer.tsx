@@ -1,4 +1,13 @@
+"use client";
+
+import { useState } from "react";
+import { PrivacyPolicyModal } from "@/components/PrivacyPolicyModal";
+import { TermsModal } from "@/components/TermsModal";
+
 export default function Footer() {
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [termsOpen, setTermsOpen] = useState(false);
+
   return (
     <footer className="foot">
       <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1.2fr", gap: 64, paddingTop: 24, paddingBottom: 24 }}>
@@ -28,11 +37,13 @@ export default function Footer() {
       <div className="wrap" style={{ paddingTop: 24, paddingBottom: 24, borderTop: "1px solid var(--silver-mist)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, color: "var(--graphite)", fontSize: 12 }}>
         <div>© 2026 INANSWER Inc. All rights reserved.</div>
         <div style={{ display: "flex", gap: 24 }}>
-          <a href="#" style={{ color: "var(--graphite)" }}>이용약관</a>
-          <a href="#" style={{ color: "var(--graphite)" }}>개인정보처리방침</a>
-          <a href="#" style={{ color: "var(--graphite)" }}>측정 방법론 (PDF)</a>
+          <a href="#" style={{ color: "var(--graphite)" }} onClick={(e) => { e.preventDefault(); setTermsOpen(true); }}>이용약관</a>
+          <a href="#" style={{ color: "var(--graphite)" }} onClick={(e) => { e.preventDefault(); setPrivacyOpen(true); }}>개인정보처리방침</a>
         </div>
       </div>
+
+      <TermsModal open={termsOpen} onClose={() => setTermsOpen(false)} />
+      <PrivacyPolicyModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} />
     </footer>
   );
 }
